@@ -43,7 +43,7 @@ const initialState: ProductState = {
 
 // Async Thunks
 export const fetchProducts = createAsyncThunk(
-  'products/fetchProducts',
+  'product/products',
   async (params?: {
     page?: number;
     limit?: number;
@@ -53,6 +53,7 @@ export const fetchProducts = createAsyncThunk(
     lowStock?: boolean;
   }) => {
     const response = await productService.getAllProducts(params);
+    console.log('Fetched products:', response);
     return response;
   }
 );
@@ -66,7 +67,7 @@ export const fetchProductById = createAsyncThunk(
 );
 
 export const createProduct = createAsyncThunk(
-  'products/createProduct',
+  'product/create-product',
   async (productData: Partial<Product>) => {
     const response = await productService.createProduct(productData);
     return response;
@@ -136,9 +137,10 @@ const productSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchProducts.fulfilled, (state, action: PayloadAction<PaginatedResponse<Product>>) => {
+      .addCase(fetchProducts.fulfilled, (state, action) => {
+        console.log('Products fetched successfully:', action.payload);
         state.loading = false;
-        state.products = action.payload.data;
+        state.products = action.payload.products;
         state.pagination = {
           page: action.payload.page,
           limit: action.payload.limit,

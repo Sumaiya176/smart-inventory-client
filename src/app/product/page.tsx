@@ -12,6 +12,7 @@ import Button from '@/components/ui/Button';
 export default function ProductsPage() {
   const dispatch = useAppDispatch();
   const { products, loading } = useAppSelector((state) => state.products);
+  console.log('Products loaded:', products);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   // This function runs after product is successfully created
@@ -75,7 +76,7 @@ export default function ProductsPage() {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {products.map((product) => (
+            {products?.map((product) => (
               <tr key={product.id}>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center">
@@ -84,29 +85,29 @@ export default function ProductsPage() {
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {product.sku}
+                  {product?.sku}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  ${product.price.toFixed(2)}
+                  ${Number(product?.price || 0).toFixed(2)}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span className={`text-sm font-medium ${
-                    product.stockQuantity <= product.minimumStockThreshold 
+                    product?.stockQuantity <= product?.minimumStockThreshold 
                       ? 'text-red-600' 
                       : 'text-gray-900'
                   }`}>
-                    {product.stockQuantity} units
+                    {product?.stockQuantity} units
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                    product.status === 'ACTIVE' 
+                    product?.status === 'ACTIVE' 
                       ? 'bg-green-100 text-green-800'
-                      : product.status === 'OUT_OF_STOCK'
+                      : product?.status === 'OUT_OF_STOCK'
                       ? 'bg-red-100 text-red-800'
                       : 'bg-gray-100 text-gray-800'
                   }`}>
-                    {product.status}
+                    {product?.status}
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">

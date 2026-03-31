@@ -3,7 +3,7 @@ import api from './api';
 import { Product, PaginatedResponse, ApiResponse } from '@/types';
 
 class ProductService {
-  private baseUrl = '/products';
+  private baseUrl = '/product';
 
   async getAllProducts(params?: {
     page?: number;
@@ -13,7 +13,8 @@ class ProductService {
     status?: string;
     lowStock?: boolean;
   }): Promise<PaginatedResponse<Product>> {
-    const response = await api.get<ApiResponse<PaginatedResponse<Product>>>(this.baseUrl, { params });
+    const response = await api.get<ApiResponse<PaginatedResponse<Product>>>(`${this.baseUrl}/products`, { params });
+    console.log('API response for getAllProducts:', response);
     return response.data.data;
   }
 
@@ -23,7 +24,7 @@ class ProductService {
   }
 
   async createProduct(productData: Partial<Product>): Promise<Product> {
-    const response = await api.post<ApiResponse<Product>>(this.baseUrl, productData);
+    const response = await api.post<ApiResponse<Product>>(`${this.baseUrl}/create-product`, productData);
     return response.data.data;
   }
 

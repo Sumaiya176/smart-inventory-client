@@ -20,7 +20,7 @@ const initialState: CategoryState = {
 
 // Async Thunks
 export const fetchCategories = createAsyncThunk(
-  'categories/fetchCategories',
+  '/category/categories',
   async () => {
     const response = await categoryService.getAllCategories();
     return response;
