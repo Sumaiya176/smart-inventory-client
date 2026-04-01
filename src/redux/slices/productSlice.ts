@@ -140,7 +140,7 @@ const productSlice = createSlice({
       .addCase(fetchProducts.fulfilled, (state, action) => {
         console.log('Products fetched successfully:', action.payload);
         state.loading = false;
-        state.products = action.payload.products;
+        state.products = action.payload.product;
         state.pagination = {
           page: action.payload.page,
           limit: action.payload.limit,
