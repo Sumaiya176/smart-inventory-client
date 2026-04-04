@@ -56,9 +56,9 @@ const menuItems: MenuItem[] = [
     icon: ShoppingCart,
     roles: ['ADMIN', 'MANAGER', 'VIEWER'],
     children: [
-      { name: 'All Orders', href: '/orders', icon: ClipboardList },
-      { name: 'Create Order', href: '/orders/create', icon: ShoppingCart },
-      { name: 'Pending Orders', href: '/orders?status=pending', icon: Truck },
+      // { name: 'All Orders', href: '/orders', icon: ClipboardList },
+      { name: 'Create Order', href: '/order', icon: ShoppingCart },
+      { name: 'Pending Orders', href: '/order/pending', icon: Truck },
     ],
   },
   {
@@ -77,7 +77,7 @@ const menuItems: MenuItem[] = [
     name: 'Analytics',
     href: '/analytics',
     icon: BarChart3,
-    roles: ['ADMIN', 'MANAGER', 'VIEWER'],
+    roles: ['ADMIN', 'MANAGER'],
   },
   {
     name: 'Users',

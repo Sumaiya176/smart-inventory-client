@@ -1,7 +1,7 @@
 // frontend/src/app/categories/page.tsx
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks/useRedux';
 import { fetchCategories, deleteCategory } from '@/redux/slices/categorySlice';
 import CreateCategoryModal from '@/components/category/CreateCategoryModal';
@@ -38,6 +38,10 @@ export default function CategoriesPage() {
       }
     }
   };
+
+  useEffect(() => {
+    dispatch(fetchCategories());
+  }, [dispatch]);
 
   return (
     <div className="p-6">

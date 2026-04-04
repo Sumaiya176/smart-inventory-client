@@ -212,7 +212,7 @@ export default function CreateOrderModal({ onClose, onSuccess }: CreateOrderModa
                 className="flex-1 px-3 py-2 border border-gray-300 rounded-lg"
               >
                 <option value="">Select Product</option>
-                {products.filter(p => p.status === 'ACTIVE').map(product => (
+                {products?.filter(p => p.status === 'ACTIVE').map(product => (
                   <option key={product.id} value={product.id}>
                     {product.name} - ${product.price} (Stock: {product.stockQuantity})
                   </option>
@@ -250,12 +250,12 @@ export default function CreateOrderModal({ onClose, onSuccess }: CreateOrderModa
                   <tbody className="divide-y divide-gray-200">
                     {items.map((item, index) => (
                       <tr key={index}>
-                        <td className="px-4 py-2 text-sm text-gray-900">{item.productName}</td>
-                        <td className="px-4 py-2 text-sm text-gray-600">${item.price.toFixed(2)}</td>
+                        <td className="px-4 py-2 text-sm text-gray-900">{item?.productName}</td>
+                        <td className="px-4 py-2 text-sm text-gray-600">${item?.price}</td>
                         <td className="px-4 py-2">
                           <input
                             type="number"
-                            value={item.quantity}
+                            value={item?.quantity}
                             onChange={(e) => updateQuantity(index, parseInt(e.target.value) || 1)}
                             min="1"
                             className="w-20 px-2 py-1 border border-gray-300 rounded"

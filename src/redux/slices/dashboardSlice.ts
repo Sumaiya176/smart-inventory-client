@@ -22,7 +22,7 @@ const initialState: DashboardState = {
 
 // Async Thunks
 export const fetchDashboardMetrics = createAsyncThunk(
-  'dashboard/fetchMetrics',
+  'dashboard/metrics',
   async (params?: { date?: string; startDate?: string; endDate?: string }) => {
     const response = await dashboardService.getMetrics(params);
     return response;
@@ -88,6 +88,7 @@ const dashboardSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchDashboardMetrics.fulfilled, (state, action: PayloadAction<DashboardMetrics>) => {
+        console.log('Dashboard metrics fetched successfully:', action.payload);   
         state.loading = false;
         state.metrics = action.payload;
         state.lastUpdated = new Date().toISOString();

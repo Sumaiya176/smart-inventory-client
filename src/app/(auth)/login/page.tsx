@@ -55,9 +55,9 @@ export default function LoginPage() {
   };
 
   const handleDemoLogin = async () => {
-    setFormData({ email: 'admin@example.com', password: 'admin123' });
+    setFormData({ email: 'admin@example.com', password: 'Admin123!' });
     try {
-      await dispatch(login({ email: 'admin@example.com', password: 'admin123' })).unwrap();
+      await dispatch(login({ email: 'admin@example.com', password: 'Admin123!' })).unwrap();
       toast.success('Demo login successful!');
       router.push('/dashboard');
     } catch (error) {

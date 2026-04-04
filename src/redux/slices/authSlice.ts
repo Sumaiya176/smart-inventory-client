@@ -25,7 +25,7 @@ const initialState: AuthState = {
 
 // Login thunk
 export const login = createAsyncThunk(
-  'auth/login',
+  '/user/login',
   async ({ email, password }: { email: string; password: string }) => {
     const response = await authService.login(email, password);
     return response;
@@ -63,11 +63,12 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(login.fulfilled, (state, action) => {
+        console.log('Login successful:', action.payload);
         state.isLoading = false;
-        state.user = action.payload.user;
-        state.token = action.payload.token;
-        localStorage.setItem('token', action.payload.token);
-        localStorage.setItem('user', JSON.stringify(action.payload.user));
+        state.user = action.payload.data.userData;
+        state.token = action.payload.data.token;
+        localStorage.setItem('token', action.payload.data.token);
+        localStorage.setItem('user', JSON.stringify(action.payload.data.userData));
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoading = false;

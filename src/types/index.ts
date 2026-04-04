@@ -120,7 +120,7 @@ export interface ApiResponse<T = any> {
 }
 
 export interface PaginatedResponse<T> {
-  product: { id: string; name: string; sku: string; description?: string | undefined; categoryId: string; category?: { id: string; name: string; description?: string | undefined; createdAt: string; updatedAt: string; } | undefined; price: number; stockQuantity: number; minimumStockThreshold: number; status: "ACTIVE" | "OUT_OF_STOCK" | "DISCONTINUED"; createdAt: string; updatedAt: string; }[];
+  products: { id: string; name: string; sku: string; description?: string | undefined; categoryId: string; category?: { id: string; name: string; description?: string | undefined; createdAt: string; updatedAt: string; } | undefined; price: number; stockQuantity: number; minimumStockThreshold: number; status: "ACTIVE" | "OUT_OF_STOCK" | "DISCONTINUED"; createdAt: string; updatedAt: string; }[];
   data: T[];
   total: number;
   page: number;

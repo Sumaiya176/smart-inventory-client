@@ -90,15 +90,15 @@ export default function SignupPage() {
     }
   };
 
-  const handleDemoSignup = () => {
-    setFormData({
-      name: 'Demo User',
-      email: 'demo@example.com',
-      password: 'Demo123!',
-      confirmPassword: 'Demo123!',
-    });
-    setAcceptTerms(true);
-  };
+  // const handleDemoSignup = () => {
+  //   setFormData({
+  //     name: 'Demo User',
+  //     email: 'demo@example.com',
+  //     password: 'Demo123!',
+  //     confirmPassword: 'Demo123!',
+  //   });
+  //   setAcceptTerms(true);
+  // };
 
   const passwordStrength = () => {
     let strength = 0;
@@ -304,14 +304,14 @@ export default function SignupPage() {
             </button>
 
             {/* DEMO ACCOUNT BUTTON */}
-            <button
+            {/* <button
               type="button"
               onClick={handleDemoSignup}
               disabled={isLoading}
               className="w-full border-2 border-blue-600 text-blue-600 py-2 px-4 rounded-lg hover:bg-blue-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
             >
               Try Demo Account
-            </button>
+            </button> */}
           </form>
 
           {/* Sign In Link */}

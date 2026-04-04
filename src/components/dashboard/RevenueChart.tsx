@@ -1,28 +1,35 @@
 // src/components/dashboard/RevenueChart.tsx
 'use client';
 
+import { useAppDispatch, useAppSelector } from '@/redux/hooks/useRedux';
+import { fetchRevenueChart } from '@/redux/slices/dashboardSlice';
 import { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 export default function RevenueChart() {
+  const dispatch = useAppDispatch();
   const [data, setData] = useState([]);
+  const { metrics, loading } = useAppSelector((state) => state.dashboard);
 
   useEffect(() => {
     // Fetch revenue data
-    const fetchData = async () => {
-      // Sample data - replace with API call
-      const sampleData = [
-        { date: 'Mon', revenue: 1200 },
-        { date: 'Tue', revenue: 1900 },
-        { date: 'Wed', revenue: 1500 },
-        { date: 'Thu', revenue: 2100 },
-        { date: 'Fri', revenue: 2400 },
-        { date: 'Sat', revenue: 1800 },
-        { date: 'Sun', revenue: 1300 },
-      ];
-      setData(sampleData as any);
-    };
-    fetchData();
+    dispatch(fetchRevenueChart(7 )).then((response) => {
+      setData(response.payload as any);
+    });
+    // const fetchData = async () => {
+    //   // Sample data - replace with API call
+    //   const sampleData = [
+    //     { date: 'Mon', revenue: 1200 },
+    //     { date: 'Tue', revenue: 1900 },
+    //     { date: 'Wed', revenue: 1500 },
+    //     { date: 'Thu', revenue: 2100 },
+    //     { date: 'Fri', revenue: 2400 },
+    //     { date: 'Sat', revenue: 1800 },
+    //     { date: 'Sun', revenue: 1300 },
+    //   ];
+    //   setData(sampleData as any);
+    // };
+
   }, []);
 
   return (

@@ -3,7 +3,7 @@ import api from './api';
 import { Order, CreateOrderData, UpdateOrderData, PaginatedResponse, ApiResponse } from '@/types';
 
 class OrderService {
-  private baseUrl = '/orders';
+  private baseUrl = '/order';
 
   async getAllOrders(params?: {
     page?: number;
@@ -13,7 +13,7 @@ class OrderService {
     endDate?: string;
     search?: string;
   }): Promise<PaginatedResponse<Order>> {
-    const response = await api.get<ApiResponse<PaginatedResponse<Order>>>(this.baseUrl, { params });
+    const response = await api.get<ApiResponse<PaginatedResponse<Order>>>(`${this.baseUrl}/orders`, { params });
     return response.data.data;
   }
 
@@ -23,22 +23,24 @@ class OrderService {
   }
 
   async createOrder(orderData: CreateOrderData): Promise<Order> {
-    const response = await api.post<ApiResponse<Order>>(this.baseUrl, orderData);
+    const response = await api.post<ApiResponse<Order>>(`${this.baseUrl}/create-order`, orderData);
     return response.data.data;
   }
 
   async updateOrderStatus(id: string, status: Order['status']): Promise<Order> {
-    const response = await api.patch<ApiResponse<Order>>(`${this.baseUrl}/${id}/status`, { status });
+    const response = await api.patch<ApiResponse<Order>>(`${this.baseUrl}/update-order-status/${id}`, { status });
     return response.data.data;
   }
 
   async updateOrder(id: string, data: UpdateOrderData): Promise<Order> {
-    const response = await api.patch<ApiResponse<Order>>(`${this.baseUrl}/${id}`, data);
+    const response = await api.patch<ApiResponse<Order>>(`${this.baseUrl}/update-order/${id}`, data);
     return response.data.data;
   }
 
-  async cancelOrder(id: string): Promise<Order> {
-    const response = await api.post<ApiResponse<Order>>(`${this.baseUrl}/${id}/cancel`);
+  async cancelOrder({id, reason}:{id: string, reason: string}): Promise<Order> {
+    const orderId = id
+    console.log('Cancelling order with ID:', orderId, 'Reason:', reason);
+    const response = await api.post<ApiResponse<Order>>(`${this.baseUrl}/cancel-order/${orderId}`, { reason });
     return response.data.data;
   }
 

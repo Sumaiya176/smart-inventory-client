@@ -7,16 +7,35 @@ import StatsCard from '@/components/dashboard/StatsCard';
 import RevenueChart from '@/components/dashboard/RevenueChart';
 import RecentActivities from '@/components/dashboard/RecentActivities';
 import { Package, ShoppingCart, AlertTriangle, DollarSign } from 'lucide-react';
+import { fetchDashboardMetrics } from '@/redux/slices/dashboardSlice';
 
 export default function DashboardPage() {
   const dispatch = useAppDispatch();
   const { metrics, loading } = useAppSelector((state) => state.dashboard);
+  console.log("Dashboard metrics:", metrics); 
   const [currentDateTime, setCurrentDateTime] = useState<string>('');
 
   useEffect(() => {
+    fetchDashboardMetrics();
     // Only run on client-side
     setCurrentDateTime(new Date().toLocaleString());
   }, []);
+
+  useEffect(() => {
+   dispatch(fetchDashboardMetrics());
+   const interval = setInterval(() => {
+     dispatch(fetchDashboardMetrics());
+     setCurrentDateTime(new Date().toLocaleString());
+   }, 60000);   
+    return () => clearInterval(interval); 
+  }, [dispatch]);
+
+  const refreshDashboard = () => {
+    Promise.all([
+      dispatch(fetchDashboardMetrics()),
+      // You can add more dispatches here if you have other data to refresh
+      // e.g., dispatch(fetchRecentActivities()), dispatch(fetchRevenueTrends()), etc.    
+      ]);}
 
   const stats = [
     {
@@ -28,7 +47,7 @@ export default function DashboardPage() {
     },
     {
       title: 'Revenue Today',
-      value: `$${metrics?.totalRevenueToday?.toFixed(2) || 0}`,
+      value: `$${Number(metrics?.totalRevenueToday)?.toFixed(2) || 0}`,
       icon: DollarSign,
       color: 'bg-green-500',
       change: '+8%',

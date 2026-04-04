@@ -56,7 +56,7 @@ export default function UpdateOrderStatus({ orderId, currentStatus, onUpdate, on
 
     setLoading(true);
     try {
-      await dispatch(cancelOrder(orderId)).unwrap();
+      await dispatch(cancelOrder({id: orderId, reason: cancelReason})).unwrap();
       toast.success('Order cancelled successfully');
       onUpdate();
       onClose();

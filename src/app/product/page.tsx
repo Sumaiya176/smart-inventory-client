@@ -1,7 +1,7 @@
 // frontend/src/app/products/page.tsx
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks/useRedux';
 import { fetchProducts, deleteProduct } from '@/redux/slices/productSlice';
 import { Plus, Edit, Trash2, Package } from 'lucide-react';
@@ -39,6 +39,10 @@ export default function ProductsPage() {
       }
     }
   };
+
+  useEffect(() => {
+    dispatch(fetchProducts({ page: 1, limit: 10 }));
+   }, [dispatch]);
 
   return (
     <div className="p-6">

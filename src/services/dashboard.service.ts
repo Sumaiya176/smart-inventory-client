@@ -11,6 +11,7 @@ class DashboardService {
     endDate?: string;
   }): Promise<DashboardMetrics> {
     const response = await api.get<ApiResponse<DashboardMetrics>>(`${this.baseUrl}/metrics`, { params });
+    console.log('Fetched dashboard metrics:', response.data.data);
     return response.data.data;
   }
 
@@ -18,6 +19,7 @@ class DashboardService {
     const response = await api.get<ApiResponse<ActivityLog[]>>(`${this.baseUrl}/activities`, {
       params: { limit },
     });
+    console.log('Fetched recent activities:', response.data.data);
     return response.data.data;
   }
 
@@ -25,6 +27,8 @@ class DashboardService {
     const response = await api.get(`${this.baseUrl}/revenue-chart`, {
       params: { days },
     });
+
+    console.log("Fetched revenue chart data:", response.data.data);
     return response.data.data;
   }
 

@@ -2,7 +2,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useAppSelector } from '@/redux/hooks/useRedux';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks/useRedux';
 import { 
   Activity, 
   Package, 
@@ -18,6 +18,7 @@ import {
   Archive
 } from 'lucide-react';
 import Link from 'next/link';
+import { fetchRecentActivities } from '@/redux/slices/dashboardSlice';
 
 interface Activity {
   id: string;
@@ -36,6 +37,7 @@ export default function RecentActivities() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all');
   const { user } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     fetchActivities();
@@ -44,96 +46,100 @@ export default function RecentActivities() {
   const fetchActivities = async () => {
     try {
       // Simulate API call - replace with actual API
-      const mockActivities: Activity[] = [
-        {
-          id: '1',
-          action: 'Order #ORD-1734567890 created',
-          actionType: 'ORDER_CREATED',
-          entityType: 'ORDER',
-          entityId: 'order_1',
-          userId: 'user_1',
-          userName: 'John Doe',
-          createdAt: new Date(Date.now() - 5 * 60000).toISOString(),
-          metadata: { totalAmount: 789.98, items: 2 }
-        },
-        {
-          id: '2',
-          action: 'Stock updated for "iPhone 13"',
-          actionType: 'STOCK_UPDATED',
-          entityType: 'PRODUCT',
-          entityId: 'product_1',
-          userId: 'user_3',
-          userName: 'Admin User',
-          createdAt: new Date(Date.now() - 30 * 60000).toISOString(),
-          metadata: { previousStock: 15, newStock: 12 }
-        },
-        {
-          id: '3',
-          action: 'Product "Wireless Headphones" added to Restock Queue',
-          actionType: 'ADDED_TO_RESTOCK_QUEUE',
-          entityType: 'RESTOCK_QUEUE',
-          entityId: 'queue_1',
-          userId: 'system',
-          userName: 'System',
-          createdAt: new Date(Date.now() - 1 * 3600000).toISOString(),
-          metadata: { priority: 'HIGH', currentStock: 2 }
-        },
-        {
-          id: '4',
-          action: 'Order #ORD-1734567889 marked as Shipped',
-          actionType: 'ORDER_STATUS_CHANGED',
-          entityType: 'ORDER',
-          entityId: 'order_2',
-          userId: 'user_2',
-          userName: 'Manager User',
-          createdAt: new Date(Date.now() - 2 * 3600000).toISOString(),
-          metadata: { oldStatus: 'CONFIRMED', newStatus: 'SHIPPED' }
-        },
-        {
-          id: '5',
-          action: 'New category "Electronics" created',
-          actionType: 'CATEGORY_CREATED',
-          entityType: 'CATEGORY',
-          entityId: 'cat_1',
-          userId: 'user_3',
-          userName: 'Admin User',
-          createdAt: new Date(Date.now() - 3 * 3600000).toISOString(),
-        },
-        {
-          id: '6',
-          action: 'Product "Samsung Galaxy S22" restocked',
-          actionType: 'PRODUCT_RESTOCKED',
-          entityType: 'PRODUCT',
-          entityId: 'product_2',
-          userId: 'user_3',
-          userName: 'Admin User',
-          createdAt: new Date(Date.now() - 4 * 3600000).toISOString(),
-          metadata: { addedQuantity: 10, newStock: 18 }
-        },
-        {
-          id: '7',
-          action: 'Low stock alert for "Cotton T-Shirt"',
-          actionType: 'ADDED_TO_RESTOCK_QUEUE',
-          entityType: 'RESTOCK_QUEUE',
-          entityId: 'queue_2',
-          userId: 'system',
-          userName: 'System',
-          createdAt: new Date(Date.now() - 5 * 3600000).toISOString(),
-          metadata: { priority: 'MEDIUM', currentStock: 3 }
-        },
-        {
-          id: '8',
-          action: 'User "Manager User" logged in',
-          actionType: 'USER_LOGIN',
-          entityType: 'USER',
-          entityId: 'user_2',
-          userId: 'user_2',
-          userName: 'Manager User',
-          createdAt: new Date(Date.now() - 6 * 3600000).toISOString(),
-        },
-      ];
+      dispatch(fetchRecentActivities(10)).then((response) => {
+        console.log('Fetched recent activities:', response.payload);
+        setActivities(response.payload as Activity[]);
+      })
+      // const mockActivities: Activity[] = [
+      //   {
+      //     id: '1',
+      //     action: 'Order #ORD-1734567890 created',
+      //     actionType: 'ORDER_CREATED',
+      //     entityType: 'ORDER',
+      //     entityId: 'order_1',
+      //     userId: 'user_1',
+      //     userName: 'John Doe',
+      //     createdAt: new Date(Date.now() - 5 * 60000).toISOString(),
+      //     metadata: { totalAmount: 789.98, items: 2 }
+      //   },
+      //   {
+      //     id: '2',
+      //     action: 'Stock updated for "iPhone 13"',
+      //     actionType: 'STOCK_UPDATED',
+      //     entityType: 'PRODUCT',
+      //     entityId: 'product_1',
+      //     userId: 'user_3',
+      //     userName: 'Admin User',
+      //     createdAt: new Date(Date.now() - 30 * 60000).toISOString(),
+      //     metadata: { previousStock: 15, newStock: 12 }
+      //   },
+      //   {
+      //     id: '3',
+      //     action: 'Product "Wireless Headphones" added to Restock Queue',
+      //     actionType: 'ADDED_TO_RESTOCK_QUEUE',
+      //     entityType: 'RESTOCK_QUEUE',
+      //     entityId: 'queue_1',
+      //     userId: 'system',
+      //     userName: 'System',
+      //     createdAt: new Date(Date.now() - 1 * 3600000).toISOString(),
+      //     metadata: { priority: 'HIGH', currentStock: 2 }
+      //   },
+      //   {
+      //     id: '4',
+      //     action: 'Order #ORD-1734567889 marked as Shipped',
+      //     actionType: 'ORDER_STATUS_CHANGED',
+      //     entityType: 'ORDER',
+      //     entityId: 'order_2',
+      //     userId: 'user_2',
+      //     userName: 'Manager User',
+      //     createdAt: new Date(Date.now() - 2 * 3600000).toISOString(),
+      //     metadata: { oldStatus: 'CONFIRMED', newStatus: 'SHIPPED' }
+      //   },
+      //   {
+      //     id: '5',
+      //     action: 'New category "Electronics" created',
+      //     actionType: 'CATEGORY_CREATED',
+      //     entityType: 'CATEGORY',
+      //     entityId: 'cat_1',
+      //     userId: 'user_3',
+      //     userName: 'Admin User',
+      //     createdAt: new Date(Date.now() - 3 * 3600000).toISOString(),
+      //   },
+      //   {
+      //     id: '6',
+      //     action: 'Product "Samsung Galaxy S22" restocked',
+      //     actionType: 'PRODUCT_RESTOCKED',
+      //     entityType: 'PRODUCT',
+      //     entityId: 'product_2',
+      //     userId: 'user_3',
+      //     userName: 'Admin User',
+      //     createdAt: new Date(Date.now() - 4 * 3600000).toISOString(),
+      //     metadata: { addedQuantity: 10, newStock: 18 }
+      //   },
+      //   {
+      //     id: '7',
+      //     action: 'Low stock alert for "Cotton T-Shirt"',
+      //     actionType: 'ADDED_TO_RESTOCK_QUEUE',
+      //     entityType: 'RESTOCK_QUEUE',
+      //     entityId: 'queue_2',
+      //     userId: 'system',
+      //     userName: 'System',
+      //     createdAt: new Date(Date.now() - 5 * 3600000).toISOString(),
+      //     metadata: { priority: 'MEDIUM', currentStock: 3 }
+      //   },
+      //   {
+      //     id: '8',
+      //     action: 'User "Manager User" logged in',
+      //     actionType: 'USER_LOGIN',
+      //     entityType: 'USER',
+      //     entityId: 'user_2',
+      //     userId: 'user_2',
+      //     userName: 'Manager User',
+      //     createdAt: new Date(Date.now() - 6 * 3600000).toISOString(),
+      //   },
+      // ];
 
-      setActivities(mockActivities);
+      // setActivities(mockActivities);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching activities:', error);

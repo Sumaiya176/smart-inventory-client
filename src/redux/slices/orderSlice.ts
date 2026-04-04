@@ -44,7 +44,7 @@ const initialState: OrderState = {
 
 // Async Thunks
 export const fetchOrders = createAsyncThunk(
-  'orders/fetchOrders',
+  'order/orders',
   async (params?: {
     page?: number;
     limit?: number;
@@ -67,7 +67,7 @@ export const fetchOrderById = createAsyncThunk(
 );
 
 export const createOrder = createAsyncThunk(
-  'orders/createOrder',
+  '/order/create-order',
   async (orderData: CreateOrderData) => {
     const response = await orderService.createOrder(orderData);
     return response;
@@ -75,7 +75,7 @@ export const createOrder = createAsyncThunk(
 );
 
 export const updateOrderStatus = createAsyncThunk(
-  'orders/updateOrderStatus',
+  'orders/update-order-status',
   async ({ id, status }: { id: string; status: Order['status'] }) => {
     const response = await orderService.updateOrderStatus(id, status);
     return response;
@@ -83,7 +83,7 @@ export const updateOrderStatus = createAsyncThunk(
 );
 
 export const updateOrder = createAsyncThunk(
-  'orders/updateOrder',
+  'order/update-order',
   async ({ id, data }: { id: string; data: UpdateOrderData }) => {
     const response = await orderService.updateOrder(id, data);
     return response;
@@ -91,9 +91,9 @@ export const updateOrder = createAsyncThunk(
 );
 
 export const cancelOrder = createAsyncThunk(
-  'orders/cancelOrder',
-  async (id: string) => {
-    const response = await orderService.cancelOrder(id);
+  'order/cancel-order',
+  async ({id, reason}:{id: string, reason: string}) => {
+    const response = await orderService.cancelOrder({id, reason});
     return response;
   }
 );
@@ -144,6 +144,7 @@ const orderSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchOrders.fulfilled, (state, action: PayloadAction<PaginatedResponse<Order>>) => {
+        console.log('Orders fetched successfully:', action.payload);
         state.loading = false;
         state.orders = action.payload.data;
         state.pagination = {
