@@ -6,6 +6,7 @@ import orderReducer from './slices/orderSlice';
 import dashboardReducer from './slices/dashboardSlice';
 import categoryReducer from './slices/categorySlice';
 import activityReducer from './slices/activitySlice';
+import restockQueueReducer from './slices/restockQueueSlice';
 
 export const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
     dashboard: dashboardReducer,
     categories: categoryReducer,
     activities: activityReducer,
+    restockQueue: restockQueueReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
