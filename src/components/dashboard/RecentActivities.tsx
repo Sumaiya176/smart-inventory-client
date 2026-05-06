@@ -213,7 +213,7 @@ export default function RecentActivities() {
     return `${diffDays} days ago`;
   };
 
-  const filteredActivities = activities.filter(activity => {
+  const filteredActivities = activities?.filter(activity => {
     if (filter === 'all') return true;
     return activity.actionType.toLowerCase().includes(filter);
   });
@@ -270,13 +270,13 @@ export default function RecentActivities() {
             <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-gray-300 border-t-primary-600"></div>
             <p className="mt-2 text-gray-500">Loading activities...</p>
           </div>
-        ) : filteredActivities.length === 0 ? (
+        ) : filteredActivities?.length === 0 ? (
           <div className="p-8 text-center">
             <Activity className="w-12 h-12 text-gray-300 mx-auto mb-3" />
             <p className="text-gray-500">No activities found</p>
           </div>
         ) : (
-          filteredActivities.map((activity) => (
+          filteredActivities?.map((activity) => (
             <div
               key={activity.id}
               className="p-4 hover:bg-gray-50 transition-colors group"
