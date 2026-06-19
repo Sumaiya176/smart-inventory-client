@@ -61,6 +61,7 @@ export default function LoginPage() {
       toast.success('Demo login successful!');
       router.push('/dashboard');
     } catch (error) {
+      console.log('Demo login error:', error);
       toast.error('Demo login failed');
     }
   };

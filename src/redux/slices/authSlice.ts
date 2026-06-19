@@ -1,6 +1,7 @@
 // src/redux/slices/authSlice.ts
 import authService from '@/services/auth.service';
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { setCookie, deleteCookie } from 'cookies-next';
 
 interface User {
   id: string;
@@ -28,6 +29,13 @@ export const login = createAsyncThunk(
   '/user/login',
   async ({ email, password }: { email: string; password: string }) => {
     const response = await authService.login(email, password);
+    console.log('Login response:', response);
+
+    // Set cookies for middleware
+      
+    setCookie('token', response.data.token, { maxAge: 60 * 60 * 24 * 7 });
+    setCookie('userRole', response.data.userData.role, { maxAge: 60 * 60 * 24 * 7 });
+    setCookie('userEmail', response.data.userData.email, { maxAge: 60 * 60 * 24 * 7 });
     return response;
   }
 );
@@ -41,16 +49,36 @@ export const signup = createAsyncThunk(
   }
 );
 
+// Logout
+export const logout = createAsyncThunk('auth/logout', async () => {
+  // Clear cookies
+  deleteCookie('token');
+  deleteCookie('userRole');
+  deleteCookie('userEmail');
+  
+  await authService.logout();
+  return null;
+});
+
+
+export const getCurrentUser = createAsyncThunk(
+  'auth/getCurrentUser',
+  async () => {
+    const user = await authService.getCurrentUser();
+    return user;
+  }
+);
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    logout: (state) => {
-      state.user = null;
-      state.token = null;
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-    },
+    // logout: (state) => {
+    //   state.user = null;
+    //   state.token = null;
+    //   localStorage.removeItem('token');
+    //   localStorage.removeItem('user');
+    // },
     clearError: (state) => {
       state.error = null;
     },
@@ -89,9 +117,20 @@ const authSlice = createSlice({
       .addCase(signup.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.error.message || 'Signup failed';
+      })
+      // Logout
+      .addCase(logout.fulfilled, (state) => {
+        state.user = null;
+        state.token = null;
+      })
+      // Get Current User
+      .addCase(getCurrentUser.fulfilled, (state, action) => {
+        if (action.payload) {
+          state.user = action.payload;
+        }
       });
   },
 });
 
-export const { logout, clearError } = authSlice.actions;
+export const { clearError } = authSlice.actions;
 export default authSlice.reducer;

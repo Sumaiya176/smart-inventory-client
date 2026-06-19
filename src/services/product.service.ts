@@ -29,16 +29,16 @@ class ProductService {
   }
 
   async updateProduct(id: string, productData: Partial<Product>): Promise<Product> {
-    const response = await api.put<ApiResponse<Product>>(`${this.baseUrl}/${id}`, productData);
+    const response = await api.put<ApiResponse<Product>>(`${this.baseUrl}/update-product/${id}`, productData);
     return response.data.data;
   }
 
   async deleteProduct(id: string): Promise<void> {
-    await api.delete(`${this.baseUrl}/${id}`);
+    await api.delete(`${this.baseUrl}/delete-product/${id}`);
   }
 
   async updateStock(id: string, quantity: number): Promise<Product> {
-    const response = await api.patch<ApiResponse<Product>>(`${this.baseUrl}/${id}/stock`, { quantity });
+    const response = await api.patch<ApiResponse<Product>>(`${this.baseUrl}/${id}/update-stock`, { quantity });
     return response.data.data;
   }
 
