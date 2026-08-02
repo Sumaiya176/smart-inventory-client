@@ -63,7 +63,7 @@ export default function PendingOrdersPage() {
             <Clock className="w-8 h-8 text-yellow-600" />
           </div>
         </div>
-        <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
+        {/* <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-blue-800 font-medium">Confirmed Orders</p>
@@ -82,7 +82,7 @@ export default function PendingOrdersPage() {
             </div>
             <Truck className="w-8 h-8 text-purple-600" />
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* Pending Orders Table */}

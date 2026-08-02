@@ -193,6 +193,9 @@ export default function OrdersPage() {
   });
   const [currentPage, setCurrentPage] = useState(1);
 
+    const pendingOrders = orders.filter(o => o.status === 'PENDING');
+  const confirmedOrders = orders.filter(o => o.status === 'CONFIRMED');
+
   useEffect(() => {
     fetchOrdersData();
   }, [currentPage, filters]);
@@ -269,6 +272,39 @@ export default function OrdersPage() {
           </Button>
         </div>
       </div>
+
+       {/* Summary Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+              <div className="bg-yellow-50 rounded-lg p-4 border border-yellow-200">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-yellow-800 font-medium">Pending Orders</p>
+                    <p className="text-2xl font-bold text-yellow-900">{pendingOrders.length}</p>
+                  </div>
+                  <Clock className="w-8 h-8 text-yellow-600" />
+                </div>
+              </div>
+              <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-blue-800 font-medium">Confirmed Orders</p>
+                    <p className="text-2xl font-bold text-blue-900">{confirmedOrders.length}</p>
+                  </div>
+                  <CheckCircle className="w-8 h-8 text-blue-600" />
+                </div>
+              </div>
+              <div className="bg-purple-50 rounded-lg p-4 border border-purple-200">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-purple-800 font-medium">Ready to Ship</p>
+                    <p className="text-2xl font-bold text-purple-900">
+                      {orders.filter(o => o.status === 'CONFIRMED').length}
+                    </p>
+                  </div>
+                  <Truck className="w-8 h-8 text-purple-600" />
+                </div>
+              </div>
+            </div>
 
       {/* Filters */}
       <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
