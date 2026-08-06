@@ -76,7 +76,7 @@ const RestockTableRow = ({
 }: RestockRowProps) => {
   // ✅ Hook is now at the top level of a component
   const [restockQty, setRestockQty] = useState(
-    item.threshold - item.currentStock + 10
+    item.threshold - item.currentStock + 1
   );
 
   const stockStatus = getStockStatus(item.currentStock, item.threshold);
